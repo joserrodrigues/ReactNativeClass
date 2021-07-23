@@ -5,46 +5,42 @@ import HomeView from './HomeView';
 
 const HomeController = () => {
 
-    //Declarando o state information
-    const [information, setInformation] = useState(0);
+    //Declarando o state selectedID
+    const [selectedID, setSelectedID] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
 
-    //Esse useEffect é invocado sempre que há uma renderização do componente
-    useEffect(() => {
-        console.log("Executa na renderização do componente");
-        return () => {
-            console.log("Executa antes de realizar a renderização");
-        }
-    });
+    //Data do FlatList
+    const data = [
+        { _id: 1, title: "Geladeira", type: "Eletrodomésticos" },
+        { _id: 2, title: "TV", type: "Eletrônicos" },
+        { _id: 3, title: "Fogão", type: "Eletrodomésticos" },
+        { _id: 4, title: "Video Game", type: "Eletrônicos" },
+        { _id: 5, title: "Microondas", type: "Eletrodomésticos" },
+        { _id: 6, title: "Notebook", type: "Eletrônicos" }
+    ];    
 
-    //Esse useEffect é invocado sempre que o componente é montado
-    useEffect(() => {
-        console.log("Executa na montagem do componente");
-        return () => {
-            //Aqui ele é executado na desmontagem do componente
-            console.log("Executa na desmontagem do componente");
-        };
-    }, []);
-
-    //Esse useEffect é invocado sempre que o valor do count é alterado
-    useEffect(() => {
-        console.log("Executa na alteração do information");
-        return () => {
-            console.log("Executa antes de executar o render ao alterar o valor do information");
-        }
-    }, [information]);
-
-
-    //função chamada no View
-    const onClicked = () => {
-        //Alterando a informação do useState
-        console.log("Clicado no botão");
-        setInformation(information + 1);
+    //Clicou para selecionar Item
+    const onSelected = (id) => {
+        setSelectedID(id)
     }
 
-    //Passando a variavel information como o props info e a função onClicked
+    //Clicou no On Refresh
+    const onRefresh = () => {
+        setRefreshing(true);
+
+        setTimeout(() => {
+            setRefreshing(false);
+            setSelectedID(-1)
+        }, 2000);
+    }
+
+    //Passando as informações para o View
     return <HomeView
-        info={information}
-        onClicked={onClicked}
+        items={data}
+        selectedID={selectedID}
+        refreshing={refreshing}
+        onSelected={onSelected}
+        onRefresh={onRefresh}
     />;
 }
 

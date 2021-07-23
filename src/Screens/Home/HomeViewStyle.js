@@ -8,11 +8,11 @@ export default StyleSheet.create({
         marginTop: 40
     },
     text: {
-        fontSize: 24,
+        fontSize: 28,
         margin: 10
     },
     textButton: {
-        fontSize: 24,
+        fontSize: 28,
         margin: 10,
         color: 'blue',
         fontWeight: 'bold',
@@ -27,6 +27,11 @@ export default StyleSheet.create({
         height: 80,
         width: 80,
         textAlign: 'center'
-    }
+    },
+    textSmall: {
+        fontSize: 16,
+        marginLeft: 10,
+    },
+
 });
 
