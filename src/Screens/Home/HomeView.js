@@ -1,5 +1,6 @@
 import React from 'react';
-import { SafeAreaView, Text, FlatList, TouchableOpacity, RefreshControl} from "react-native";
+import { SafeAreaView, Text, FlatList, TouchableOpacity, RefreshControl, View} from "react-native";
+import { Icon } from 'react-native-elements'
 
 import styles from './HomeViewStyle'
 
@@ -14,9 +15,20 @@ const HomeView = (props) => {
         }
         return (
             <TouchableOpacity onPress={() => props.onSelected(item)}
-                style={[{ padding: 10 }]} key={index}>
-                <Text style={[styles.text, colorTextInfo]}>{item.title}</Text>
-                <Text style={[styles.textSmall, colorTextInfo]}>{item.type}</Text>
+                style={styles.itemView} key={index}>
+                <View style={styles.itemViewText}>
+                    <Text style={[styles.text, colorTextInfo]}>{item.title}</Text>
+                    <Text style={[styles.textSmall, colorTextInfo]}>{item.type}</Text>
+                </View>   
+                <View style={styles.itemViewIcon}>
+                    <Icon
+                        name='trash'
+                        type='font-awesome'
+                        color='#f50'
+                        size={30}
+                        onPress={() => props.deleteItem(item)} />
+                </View>             
+                
             </TouchableOpacity>
         );
     }

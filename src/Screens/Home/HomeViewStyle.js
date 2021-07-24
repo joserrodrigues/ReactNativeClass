@@ -32,6 +32,17 @@ export default StyleSheet.create({
         fontSize: 16,
         marginLeft: 10,
     },
-
+    itemView: {
+        flexDirection: 'row',
+    },
+    itemViewText: {
+        flexDirection: 'column',
+    },
+    itemViewIcon: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        marginRight: 25,
+        flexGrow: 1
+    }
 });
 

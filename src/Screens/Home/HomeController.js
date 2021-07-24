@@ -1,5 +1,6 @@
 //Importar o useState no componente
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { Text, TouchableOpacity, Alert} from 'react-native';
 import HomeView from './HomeView';
 import HomeModel from './HomeModel';
 
@@ -15,6 +16,16 @@ const HomeController = ({ navigation  }) => {
         homeModel.current  = new HomeModel();
         homeModel.current.getProducts(callbackGetProducts);
     }, [])
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate('Add')}>
+                    <Text style={{ fontSize: 30, marginRight: 15 }} > + </Text>
+                </TouchableOpacity>
+            ),
+        });
+    }, [navigation]);
 
     const callbackGetProducts = (result) => {
         console.log(result);
@@ -37,6 +48,27 @@ const HomeController = ({ navigation  }) => {
         homeModel.current.getProducts(callbackGetProducts);
     }
 
+    const deleteItem = (item) => {
+        Alert.alert(
+            "Remove Item",
+            "Deseja realmente excluir o produto",
+            [
+                {
+                    text: "Cancelar",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    setRefreshing(true);
+                    homeModel.current.deleteProducts(item, callbackDeleteProducts);
+                }}
+            ]
+        );
+    }
+    const callbackDeleteProducts = (result) => {
+        homeModel.current.getProducts(callbackGetProducts);
+    }
+
     //Passando as informações para o View
     return <HomeView
         items={productsData}
@@ -44,6 +76,7 @@ const HomeController = ({ navigation  }) => {
         refreshing={refreshing}
         onSelected={onSelected}
         onRefresh={onRefresh}
+        deleteItem={deleteItem}
     />;
 }
 
