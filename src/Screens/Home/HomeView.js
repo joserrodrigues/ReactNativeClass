@@ -13,7 +13,7 @@ const HomeView = (props) => {
             colorTextInfo = { color: '#ff0000' };
         }
         return (
-            <TouchableOpacity onPress={() => props.onSelected(item._id)}
+            <TouchableOpacity onPress={() => props.onSelected(item)}
                 style={[{ padding: 10 }]} key={index}>
                 <Text style={[styles.text, colorTextInfo]}>{item.title}</Text>
                 <Text style={[styles.textSmall, colorTextInfo]}>{item.type}</Text>

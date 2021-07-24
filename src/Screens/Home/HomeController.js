@@ -1,10 +1,9 @@
 //Importar o useState no componente
 import React, { useState, useEffect, useRef } from 'react';
-import { registerRootComponent } from 'expo';
 import HomeView from './HomeView';
 import HomeModel from './HomeModel';
 
-const HomeController = () => {
+const HomeController = ({ navigation  }) => {
 
     //Declarando o state selectedID
     const [selectedID, setSelectedID] = useState(0);
@@ -24,8 +23,11 @@ const HomeController = () => {
     }
 
     //Clicou para selecionar Item
-    const onSelected = (id) => {
-        setSelectedID(id)
+    const onSelected = (item) => {
+        setSelectedID(item._id)
+        navigation.navigate('Detail',{
+            info: item
+        });
     }
 
     //Clicou no On Refresh
@@ -45,8 +47,4 @@ const HomeController = () => {
     />;
 }
 
-// Somente utilizamos a declaração registerRootComponent 
-// quando o componente for o determinado como o inicial no
-// EntryPoint do Expo, que é o caso do HomeControler. 
-// Caso não fosse, usaríamos a linha “export default HomeController”;
-export default registerRootComponent(HomeController);
+export default HomeController;
