@@ -1,23 +1,27 @@
 //Importar o useState no componente
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { registerRootComponent } from 'expo';
 import HomeView from './HomeView';
+import HomeModel from './HomeModel';
 
 const HomeController = () => {
 
     //Declarando o state selectedID
     const [selectedID, setSelectedID] = useState(0);
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(true);
+    const [productsData, setProductsData] = useState([]);
+    const homeModel = useRef(null);
 
-    //Data do FlatList
-    const data = [
-        { _id: 1, title: "Geladeira", type: "Eletrodomésticos" },
-        { _id: 2, title: "TV", type: "Eletrônicos" },
-        { _id: 3, title: "Fogão", type: "Eletrodomésticos" },
-        { _id: 4, title: "Video Game", type: "Eletrônicos" },
-        { _id: 5, title: "Microondas", type: "Eletrodomésticos" },
-        { _id: 6, title: "Notebook", type: "Eletrônicos" }
-    ];    
+    useEffect(() => {
+        homeModel.current  = new HomeModel();
+        homeModel.current.getProducts(callbackGetProducts);
+    }, [])
+
+    const callbackGetProducts = (result) => {
+        console.log(result);
+        setRefreshing(false);
+        setProductsData(result.products);
+    }
 
     //Clicou para selecionar Item
     const onSelected = (id) => {
@@ -28,15 +32,12 @@ const HomeController = () => {
     const onRefresh = () => {
         setRefreshing(true);
 
-        setTimeout(() => {
-            setRefreshing(false);
-            setSelectedID(-1)
-        }, 2000);
+        homeModel.current.getProducts(callbackGetProducts);
     }
 
     //Passando as informações para o View
     return <HomeView
-        items={data}
+        items={productsData}
         selectedID={selectedID}
         refreshing={refreshing}
         onSelected={onSelected}

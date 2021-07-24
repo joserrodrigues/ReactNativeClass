@@ -14,7 +14,7 @@ const HomeView = (props) => {
         }
         return (
             <TouchableOpacity onPress={() => props.onSelected(item._id)}
-                style={[{ padding: 10 }]} key={item._id}>
+                style={[{ padding: 10 }]} key={index}>
                 <Text style={[styles.text, colorTextInfo]}>{item.title}</Text>
                 <Text style={[styles.textSmall, colorTextInfo]}>{item.type}</Text>
             </TouchableOpacity>
@@ -31,7 +31,7 @@ const HomeView = (props) => {
                 //No renderItem, coloamos a função onde será exibido o item
                 renderItem={renderItem}
                 //No Keyextractor, colocamos o valor único para cada item
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
                 //No extradata, colocamos as informações extras que atualizam o FlatList
                 extraData={props.selectedID}
                 //No refreshControl, coloca o componente para atualizar a tela
